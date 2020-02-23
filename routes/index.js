@@ -12,6 +12,8 @@ const {
   PetDetails
 } = require("../controllers/pet");
 
+const { auth } = require("../middleware/auth");
+
 router.get("/", (req, res) => {
   res.send("<strong>Hello DumbWays Rumah Tengah cuy</strong>");
 });
@@ -25,10 +27,10 @@ router.post("/spesies", SpesiesAdd);
 router.get("/spesies", SpesiesIndex);
 
 // pet
-router.get("/pet", IndexPet);
-router.post("/pet", AddPet);
-router.put("/pet", PetUpdate);
-router.delete("/pet", PetDestroy);
-router.get("/pet", PetDetails);
+router.get("/pets", IndexPet);
+router.post("/pets", auth, AddPet);
+router.put("/pets/:id", PetUpdate);
+router.delete("/pets/:id", PetDestroy);
+router.get("/pets/:id", PetDetails);
 
 module.exports = router;

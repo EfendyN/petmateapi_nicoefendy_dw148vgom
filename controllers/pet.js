@@ -15,7 +15,7 @@ exports.IndexPet = async (req, res) => {
         {
           model: SpesiesModel,
           as: "category",
-          attributes: ["id", "nama"]
+          attributes: ["id", "name"]
         }
       ],
       attributes: { exclude: ["user", "spesies"] }
@@ -54,7 +54,7 @@ exports.AddPet = async (req, res) => {
         {
           model: SpesiesModel,
           as: "category",
-          attributes: ["id", "nama"]
+          attributes: ["id", "name"]
         }
       ],
       attributes: { exclude: ["user", "spesies"] },
@@ -71,26 +71,25 @@ exports.AddPet = async (req, res) => {
 };
 
 exports.PetUpdate = async (req, res) => {
-  const id_data = req.params.id;
-  const { nama, gender, age, about_pet, photo } = req.body;
-  const spesies = req.body.spesies.id;
-  const user = req.body.user.id;
-
   try {
+    const id_data = req.params.id;
+    const { nama, gender, age, about_pet, photo } = req.body;
+    const spesies = req.body.spesies.id;
+    const user = req.body.user.id;
+
+    console.log(`aaaaa ${id_data}`);
     const pet = await petModel.update(
       {
         nama,
         gender,
         spesies,
         age,
-        user,
         about_pet,
         photo
       },
       { where: { id: id_data } }
     );
 
-    const id = pet.id;
     const data = await petModel.findOne({
       include: [
         {
@@ -101,21 +100,22 @@ exports.PetUpdate = async (req, res) => {
         {
           model: SpesiesModel,
           as: "category",
-          attributes: ["id", "nama"]
+          attributes: ["id", "name"]
         }
       ],
       attributes: { exclude: ["user", "spesies"] },
-      where: { id }
+      where: { id: id_data }
     });
+    res.send(data);
   } catch (err) {
     console.log(err);
   }
 };
 
 exports.PetDestroy = async (req, res) => {
-  const id = req.params;
+  const id_data = req.params.id;
   try {
-    const pet = await PetModel.findOne({
+    const pet = await petModel.findOne({
       include: [
         {
           model: UserModel,
@@ -125,22 +125,23 @@ exports.PetDestroy = async (req, res) => {
         {
           model: SpesiesModel,
           as: "category",
-          attributes: ["id", "nama"]
+          attributes: ["id", "name"]
         }
       ],
       attributes: { exclude: ["user", "spesies"] },
-      where: { id }
+      where: { id: id_data }
     });
-    res.send(pet);
+    const petdelete = await petModel.destroy({ where: { id: id_data } });
+    res.send({ message: "delete success", pet });
   } catch (err) {
     console.log(err);
   }
 };
 
 exports.PetDetails = async (req, res) => {
-  const { id } = req.params;
+  const id_data = req.params.id;
   try {
-    const pet = await PetModel.findOne({
+    const pet = await petModel.findOne({
       include: [
         {
           model: UserModel,
@@ -150,13 +151,13 @@ exports.PetDetails = async (req, res) => {
         {
           model: SpesiesModel,
           as: "category",
-          attributes: ["id", "nama"]
+          attributes: ["id", "name"]
         }
       ],
       attributes: { exclude: ["user", "spesies"] },
-      where: { id }
+      where: { id: id_data }
     });
-    res.send(pet);
+    res.send({ message: "detail success", pet });
   } catch (err) {
     console.log(err);
   }
