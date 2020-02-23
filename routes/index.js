@@ -15,6 +15,7 @@ const {
 // middleware
 const { auth } = require("../middleware/auth");
 
+//home
 router.get("/", (req, res) => {
   res.send("<strong>Hello DumbWays Rumah Tengah cuy</strong>");
 });
