@@ -12,6 +12,7 @@ const {
   PetDetails
 } = require("../controllers/pet");
 
+// middleware
 const { auth } = require("../middleware/auth");
 
 router.get("/", (req, res) => {
