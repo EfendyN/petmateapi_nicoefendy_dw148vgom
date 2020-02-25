@@ -2,10 +2,11 @@ const models = require("../models");
 const petModel = models.pet;
 const UserModel = models.user;
 const SpesiesModel = models.spesies;
+const AgeModel = models.age;
 
 exports.IndexPet = async (req, res) => {
   try {
-    const spesies = await petModel.findAll({
+    const pet = await petModel.findAll({
       include: [
         {
           model: UserModel,
@@ -16,21 +17,27 @@ exports.IndexPet = async (req, res) => {
           model: SpesiesModel,
           as: "category",
           attributes: ["id", "name"]
+        },
+        {
+          model: AgeModel,
+          as: "category",
+          attributes: ["id", "name"]
         }
       ],
-      attributes: { exclude: ["user", "spesies"] }
+      attributes: { exclude: ["user", "spesies", "age"] }
     });
-    res.send(spesies);
+    res.send(pet);
   } catch (err) {
     console.log(err);
   }
 };
 
 exports.AddPet = async (req, res) => {
-  const { name, gender, age, about_pet, photo } = req.body;
+  const { name, gender, about_pet, photo } = req.body;
   const spesies = req.body.spesies.id;
+  const age = req.body.age.id;
   const user = req.body.user.id;
-  console.log("aaaaaaaaaaaaaaaaaaaa" + req.body.name);
+  // console.log("aaaaaaaaaaaaaaaaaaaa" + req.body.name);
 
   try {
     //console.log(req.user);
@@ -55,9 +62,14 @@ exports.AddPet = async (req, res) => {
           model: SpesiesModel,
           as: "category",
           attributes: ["id", "name"]
+        },
+        {
+          model: AgeModel,
+          as: "category",
+          attributes: ["id", "name"]
         }
       ],
-      attributes: { exclude: ["user", "spesies"] },
+      attributes: { exclude: ["user", "spesies", "age"] },
       where: { id }
     });
     res.status(200).send({
@@ -75,7 +87,7 @@ exports.PetUpdate = async (req, res) => {
     const id_data = req.params.id;
     const { nama, gender, age, about_pet, photo } = req.body;
     const spesies = req.body.spesies.id;
-    const user = req.body.user.id;
+    // const user = req.body.user.id;
 
     console.log(`aaaaa ${id_data}`);
     const pet = await petModel.update(
@@ -101,9 +113,14 @@ exports.PetUpdate = async (req, res) => {
           model: SpesiesModel,
           as: "category",
           attributes: ["id", "name"]
+        },
+        {
+          model: AgeModel,
+          as: "category",
+          attributes: ["id", "name"]
         }
       ],
-      attributes: { exclude: ["user", "spesies"] },
+      attributes: { exclude: ["user", "spesies", "age"] },
       where: { id: id_data }
     });
     res.send(data);
@@ -126,9 +143,14 @@ exports.PetDestroy = async (req, res) => {
           model: SpesiesModel,
           as: "category",
           attributes: ["id", "name"]
+        },
+        {
+          model: AgeModel,
+          as: "category",
+          attributes: ["id", "name"]
         }
       ],
-      attributes: { exclude: ["user", "spesies"] },
+      attributes: { exclude: ["user", "spesies", "age"] },
       where: { id: id_data }
     });
     const petdelete = await petModel.destroy({ where: { id: id_data } });
@@ -152,9 +174,14 @@ exports.PetDetails = async (req, res) => {
           model: SpesiesModel,
           as: "category",
           attributes: ["id", "name"]
+        },
+        {
+          model: AgeModel,
+          as: "category",
+          attributes: ["id", "name"]
         }
       ],
-      attributes: { exclude: ["user", "spesies"] },
+      attributes: { exclude: ["user", "spesies", "age"] },
       where: { id: id_data }
     });
     res.send({ message: "detail success", pet });
