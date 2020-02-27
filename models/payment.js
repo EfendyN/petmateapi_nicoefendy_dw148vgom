@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       no_rek: DataTypes.STRING,
       proof_of_transfer: DataTypes.STRING,
       user: DataTypes.STRING,
-      status: DataTypes.STRING
+      status: DataTypes.ENUM("free", "premium")
     },
     {}
   );

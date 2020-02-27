@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { login } = require("../controllers/auth");
-// const models = require("../models");
 const { register } = require("../controllers/register");
+const { AddPayment, UpdatePayment } = require("../controllers/payment");
 const { SpesiesAdd, SpesiesIndex } = require("../controllers/spesies");
 const {
   IndexPet,
@@ -35,17 +35,21 @@ router.post("/register", register);
 router.post("/spesies", auth, SpesiesAdd);
 router.get("/spesies", auth, SpesiesIndex);
 
-// pet
+// pets
 router.get("/pets", auth, IndexPet);
 router.post("/pets", auth, AddPet);
 router.put("/pets/:id", auth, PetUpdate);
 router.delete("/pets/:id", auth, PetDestroy);
 router.get("/pets/:id", auth, PetDetails);
 
-// user
+// users
 router.get("/users", auth, IndexUser);
 router.put("/users/:id", auth, UserUpdate);
 router.delete("/users/:id", auth, UserDestroy);
 router.get("/users/:id", auth, UserDetail);
+
+// payment
+router.post("/payment/", auth, AddPayment);
+router.put("/payment/:id", auth, UpdatePayment);
 
 module.exports = router;

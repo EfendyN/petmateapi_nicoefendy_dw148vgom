@@ -18,6 +18,7 @@ exports.register = async (req, res) => {
     } else {
       const regUser = await User.create({
         email,
+        user_rules: "user",
         password,
         breeder,
         phone,

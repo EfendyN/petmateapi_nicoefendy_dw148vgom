@@ -20,7 +20,7 @@ exports.IndexPet = async (req, res) => {
         },
         {
           model: AgeModel,
-          as: "category",
+          as: "ages",
           attributes: ["id", "name"]
         }
       ],
@@ -37,10 +37,8 @@ exports.AddPet = async (req, res) => {
   const spesies = req.body.spesies.id;
   const age = req.body.age.id;
   const user = req.body.user.id;
-  // console.log("aaaaaaaaaaaaaaaaaaaa" + req.body.name);
 
   try {
-    //console.log(req.user);
     const pet = await petModel.create({
       nama: name,
       gender,
@@ -65,7 +63,7 @@ exports.AddPet = async (req, res) => {
         },
         {
           model: AgeModel,
-          as: "category",
+          as: "ages",
           attributes: ["id", "name"]
         }
       ],
@@ -116,7 +114,7 @@ exports.PetUpdate = async (req, res) => {
         },
         {
           model: AgeModel,
-          as: "category",
+          as: "ages",
           attributes: ["id", "name"]
         }
       ],
@@ -146,7 +144,7 @@ exports.PetDestroy = async (req, res) => {
         },
         {
           model: AgeModel,
-          as: "category",
+          as: "ages",
           attributes: ["id", "name"]
         }
       ],

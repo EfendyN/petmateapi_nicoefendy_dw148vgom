@@ -11,6 +11,8 @@ exports.auth = async (req, res, next) => {
       throw new Error();
     }
     req.user = user.id;
+    req.roles = user.user_rules;
+    console.log(user);
     req.token = token;
     next();
   } catch (err) {
